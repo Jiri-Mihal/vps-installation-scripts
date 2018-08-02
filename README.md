@@ -1,5 +1,5 @@
 # Installation scripts to run website on Ubuntu
-Do you need to run website on your Ubuntu server or VPS? These bash scripts can help you to correctly install commonly used applications to run websites.
+Do you need to run website on your Ubuntu server or VPS? These bash scripts can help you to properly install common used applications to run websites.
 
 ### Usage example
 ```bash
