@@ -18,9 +18,10 @@ fi
 
 clear
 echo -e "${GREY}----------------------------------------------------------------------"
-echo -e "Semi-automatic Webiik FW app installation on Nginx"
+echo -e "Semi-automatic Webiik or Webiik FW app installation on Nginx"
 echo -e ""
 echo -e "Contents:"
+# todo: Update contents
 echo -e "- Create proper folder structure for Nginx"
 echo -e "- Clone the git repo of your Webiik FW app"
 echo -e "- Set Nginx server configuration file"
@@ -47,20 +48,11 @@ while true; do
 done
 
 # Gather required parameters from user
-while true; do
-	read -p "Do you want to install Webiik App or Webiik FW app? (y/n): " yn
-	case ${yn} in
-		[Yy]* )
-			break;;
-		[Nn]* )
-			exit;;
-	esac
-done
-# Select installation type
 PS3="Do you want to install Webiik or Webiik FW app? : "
 select APP_TYPE in Webiik WebiikFW
 do
     echo -e "Installing ${APP_TYPE} app..."
+    break;
 done
 
 echo -e "Enter the domain eq ${RED}yourdomain.tld${NC} associated with this app:"
@@ -121,14 +113,14 @@ fi
 
 # Install required apps for every Webiik FW app
 if ! hash php 2>/dev/null; then
-	bash ~./install-php.sh
+	bash ~/install-php.sh
 	if [ ${APP_TYPE} = "WebiikFW" ]; then
-		bash ~./install-php-mysql.sh
+		bash ~/install-php-mysql.sh
 	fi
 fi
 if [ ${APP_TYPE} = "WebiikFW" ]; then
 	if ! hash mysql 2>/dev/null; then
-		bash ~./install-mysql.sh
+		bash ~/install-mysql.sh
 	fi
 fi
 
