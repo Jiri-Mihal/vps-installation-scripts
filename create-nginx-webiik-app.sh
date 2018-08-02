@@ -47,6 +47,22 @@ while true; do
 done
 
 # Gather required parameters from user
+while true; do
+	read -p "Do you want to install Webiik App or Webiik FW app? (y/n): " yn
+	case ${yn} in
+		[Yy]* )
+			break;;
+		[Nn]* )
+			exit;;
+	esac
+done
+# Select installation type
+PS3="Do you want to install Webiik or Webiik FW app? : "
+select APP_TYPE in Webiik WebiikFW
+do
+    echo -e "Installing ${APP_TYPE} app..."
+done
+
 echo -e "Enter the domain eq ${RED}yourdomain.tld${NC} associated with this app:"
 read DOMAIN
 if [[ -z "${DOMAIN}" || "$DOMAIN" = "" ]]; then
@@ -89,7 +105,7 @@ else
 fi
 
 # Add local configuration of app?
-if [[ ${INSTALL} = "first" && ${SUBDOMAIN} = "dev" ]]; then
+if [[ ${INSTALL} = "first" ]]; then
 	while true; do
 		read -p "Do you want to add and edit config.local.php file? (y/n): " yn
 		case ${yn} in
@@ -106,12 +122,15 @@ fi
 # Install required apps for every Webiik FW app
 if ! hash php 2>/dev/null; then
 	bash ~./install-php.sh
-	bash ~./install-php-mysql.sh
+	if [ ${APP_TYPE} = "WebiikFW" ]; then
+		bash ~./install-php-mysql.sh
+	fi
 fi
-if ! hash mysql 2>/dev/null; then
-	bash ~./install-mysql.sh
+if [ ${APP_TYPE} = "WebiikFW" ]; then
+	if ! hash mysql 2>/dev/null; then
+		bash ~./install-mysql.sh
+	fi
 fi
-
 
 if [ ${INSTALL} = "first" ]; then
 
@@ -147,8 +166,10 @@ if [ ${INSTALL} = "first" ]; then
 	read -p "${GREY}Press ENTER to continue...${NC}"
 
 	# MySQL user, database, tables
-	echo -e "Log in as root user to MySQL (use password for MySQL root user):"
-	sudo mysql -u root -p < /srv/web/${DOMAIN}/${SUBDOMAIN}/htdocs/private/server/db.sql
+	if [ ${APP_TYPE} = "WebiikFW" ]; then
+		echo -e "Log in as root user to MySQL (use password for MySQL root user):"
+		sudo mysql -u root -p < /srv/web/${DOMAIN}/${SUBDOMAIN}/htdocs/private/server/db.sql
+	fi
 
 	# Update Nginx configuration
 	sudo cp /srv/web/${DOMAIN}/${SUBDOMAIN}/htdocs/private/server/*.nginx /etc/nginx/sites-available
