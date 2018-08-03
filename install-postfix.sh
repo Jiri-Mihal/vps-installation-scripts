@@ -55,8 +55,8 @@ fi
 
 # Tell user about reverse DNS
 echo -e "Set reverse DNS on your server."
-read -p "${GREY}Note: It's not necessary but it will improve your SPAM score."
-read -p "Linode users: https://www.linode.com/docs/networking/dns/configure-your-linode-for-reverse-dns/"
+echo -e "${GREY}Note: It's not necessary but it will improve your SPAM score."
+echo -e "Linode users: https://www.linode.com/docs/networking/dns/configure-your-linode-for-reverse-dns/"
 read -p "Press ENTER to continue...${NC}"
 
 # Install mailutils
@@ -67,7 +67,7 @@ echo -e "Answer the questions:"
 echo -e "${BROWN}> Ok"
 echo -e "> Internet site"
 echo -e "> ${DOMAIN}${NC}"
-read -p "${GREY}Press ENTER to continue...${NC}"
+read -p "${GREY}Press ENTER to install DKIM...${NC}"
 
 # Install DKIM apps
 sudo apt-get install opendkim opendkim-tools
@@ -89,10 +89,11 @@ read -p "${GREY}Press ENTER to continue...${NC}"
 echo -e "Enter email alias for system accounts:"
 echo -e "Note: System will send email messages from this email alias."
 read SYTEM_EMAIL_ALIAS
-echo -e "root						${SYTEM_EMAIL_ALIAS}" | sudo tee -a /etc/postfix/canonical
-echo -e "root@${HOSTNAME}			${SYTEM_EMAIL_ALIAS}" | sudo tee -a /etc/postfix/canonical
-echo -e "${USER}					${SYTEM_EMAIL_ALIAS}" | sudo tee -a /etc/postfix/canonical
-echo -e "${USER}@${HOSTNAME}		${SYTEM_EMAIL_ALIAS}" | sudo tee -a /etc/postfix/canonical
+echo -e "root	${SYTEM_EMAIL_ALIAS}" | sudo tee -a /etc/postfix/canonical
+echo -e "root@${HOSTNAME}	${SYTEM_EMAIL_ALIAS}" | sudo tee -a /etc/postfix/canonical
+echo -e "${USER}	${SYTEM_EMAIL_ALIAS}" | sudo tee -a /etc/postfix/canonical
+echo -e "${USER}@${HOSTNAME}	${SYTEM_EMAIL_ALIAS}" | sudo tee -a /etc/postfix/canonical
+sudo postmap /etc/postfix/canonical
 
 # Install DKIM
 # more about it at https://blog.whabash.com/posts/send-outbound-email-postfix-dkim-spf-ubuntu-16-04
@@ -160,7 +161,7 @@ DKIM_DNS=()
     sudo chown opendkim:opendkim ${MAIL_PRIVATE_FILE_PATH}
 
     MAIL_TXT_FILE_PATH="${FINAL_DIR}/mail.txt"
-    DKIM=`cat ${MAIL_TXT_FILE_PATH} | awk '/p=/{print $1}' |sed -e 's/^\"*//' -e 's/\"*$//'`
+    DKIM=`sudo cat ${MAIL_TXT_FILE_PATH} | awk '/p=/{print $1}' | sed -e 's/^\"*//' -e 's/\"*$//'`
     DKIM_DNS+=("v=DKIM1;h=sha256;k=rsa;${DKIM}")
 #done
 
@@ -191,8 +192,7 @@ while true; do
 				case ${yn} in
 					[Yy]* )
 						echo "This is the body of the email" | mail -s "This is the subject line" check-auth@verifier.port25.com
-
-												echo -e "Check ${SYTEM_EMAIL_ALIAS} inbox to see deliver-ability result."
+						echo -e "Check ${SYTEM_EMAIL_ALIAS} inbox to see deliver-ability result."
 						read -p "${GREY}Press ENTER to continue...${NC}"
 						break;;
 					[Nn]* )
@@ -213,7 +213,7 @@ while true; do
 	read -p "Do you want to send test email message? (y/n): " yn
 	case ${yn} in
 		[Yy]* )
-						echo -e "Enter recipient email address:"
+			echo -e "Enter recipient email address:"
 			read TEST_EMAIL_ADDR
 			echo "This is the body of the email" | mail -s "This is the subject line" ${TEST_EMAIL_ADDR}
 			echo -e "${GREY}We have sent you test email to ${TEST_EMAIL_ADDR}."
