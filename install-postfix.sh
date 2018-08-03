@@ -79,11 +79,12 @@ read -p "Press ENTER to continue..."
 echo -e "Add or edit the following lines in Postfix configuration file:"
 echo -e "${BROWN}mydestination = localhost, localhost.\$mydomain, \$mydomain"
 echo -e "myhostname = ${DOMAIN}"
-echo -e "inet_interfaces = loopback-only"
-echo -e "sender_canonical_maps = hash:/etc/postfix/canonical"
-echo -e "smtp_tls_security_level = may"
-echo -e "smtp_tls_loglevel = 1${NC}"
+echo -e "inet_interfaces = loopback-only${NC}"
 read -p "Press ENTER to continue..."
+echo -e "# Custom Postfix configuration" | sudo tee -a /etc/postfix/main.cf
+echo -e "sender_canonical_maps = hash:/etc/postfix/canonical" | sudo tee -a /etc/postfix/main.cf
+echo -e "smtp_tls_security_level = may" | sudo tee -a /etc/postfix/main.cf
+echo -e "smtp_tls_loglevel = 1" | sudo tee -a /etc/postfix/main.cf
 
 # Assign real email addresses to system users
 echo -e "Enter email alias for system accounts:"

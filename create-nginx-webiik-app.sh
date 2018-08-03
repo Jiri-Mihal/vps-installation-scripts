@@ -132,7 +132,7 @@ if [ ${INSTALL} = "first" ]; then
 	bash /srv/web/${DOMAIN}/${SUBDOMAIN}/htdocs/private/server/install.sh ${SUBDOMAIN} ${DOMAIN}
 
 	# Install PHP dependencies
-	composer install -d=/srv/web/${DOMAIN}/${SUBDOMAIN}/htdocs/private
+	composer install -d /srv/web/${DOMAIN}/${SUBDOMAIN}/htdocs/private
 
 	# Install certbot if it's necessary
 	if ! hash certbot 2>/dev/null; then
@@ -143,12 +143,15 @@ if [ ${INSTALL} = "first" ]; then
 
 	# Install Let's Encrypt free SSL certificate
 	sudo certbot --nginx certonly -d ${SUBDOMAIN}.${DOMAIN}
+	read -p "Press ENTER to continue..."
 
 	# Test renewal of certificate
 	sudo certbot renew --dry-run
+	read -p "Press ENTER to continue..."
 
 	# Create Diffie Hellman key
-	openssl dhparam -out /srv/web/{$DOMAIN}/${SUBDOMAIN}/ssl/hellman.pem 2048
+	openssl dhparam -out /srv/web/${DOMAIN}/${SUBDOMAIN}/ssl/hellman.pem 2048
+	read -p "Press ENTER to continue..."
 
 	# Logrotate
 	echo -e "Open logrotate configuration file:"
@@ -165,7 +168,11 @@ if [ ${INSTALL} = "first" ]; then
 
 	# Update Nginx configuration
 	sudo cp /srv/web/${DOMAIN}/${SUBDOMAIN}/htdocs/private/server/*.nginx /etc/nginx/sites-available
-	sudo cp /srv/web/${DOMAIN}/${SUBDOMAIN}/htdocs/private/server/nginx-custom-locoloader.conf /etc/nginx/custom.conf
+	ls /etc/nginx/sites-available
+
+	if [ -f "/srv/web/${DOMAIN}/${SUBDOMAIN}/htdocs/private/server/nginx-custom-locoloader.conf" ]; then
+		sudo cp /srv/web/${DOMAIN}/${SUBDOMAIN}/htdocs/private/server/nginx-custom-locoloader.conf /etc/nginx/custom.conf
+	fi
 
 	# Check Nginx configuration
 	sudo nginx -t
@@ -174,21 +181,11 @@ if [ ${INSTALL} = "first" ]; then
 	read -p "Press ENTER if test results to successful..."
 
 	# Enable app on Nginx
-	while true; do
-	read -p "Do you want to enable your app on Nginx now? (y/n): " yn
-	case ${yn} in
-		[Yy]* )
-			sudo ln -s /etc/nginx/sites-available/${SUBDOMAIN}.${DOMAIN}.nginx /etc/nginx/sites-enabled
-			sudo service nginx restart
-			break;;
-		[Nn]* )
-			echo -e "You can enable your any time later with:"
-			echo -e "${GREEN}sudo nginx -t${NC}"
-			echo -e "${GREEN}sudo ln -s /etc/nginx/sites-available/${SUBDOMAIN}.${DOMAIN}.nginx /etc/nginx/sites-enabled${NC}"
-			echo -e "${GREEN}sudo service nginx restart${NC}"
-			break;;
-	esac
-	done
+	echo -e "You can enable your app with:"
+	echo -e "${GREEN}sudo ln -s /etc/nginx/sites-available/${SUBDOMAIN}.${DOMAIN}.nginx /etc/nginx/sites-enabled${NC}"
+	echo -e "${GREEN}sudo nginx -t${NC}"
+	echo -e "${GREEN}sudo service nginx restart${NC}"
+
 else
 
 	# Update...

@@ -21,7 +21,7 @@ while true; do
 	read -p "Do you want to install and setup PHP APCU extension? (y/n): " yn
 	case ${yn} in
 		[Yy]* )
-			sudo apt-get install php-pear
+			sudo apt-get install php-pear php-dev
 			sudo pecl install apcu
 			sudo service php7.2-fpm restart
 			break;;
