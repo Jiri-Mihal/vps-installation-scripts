@@ -56,18 +56,18 @@ fi
 # Tell user about reverse DNS
 echo -e "Set reverse DNS on your server."
 echo -e "${GREY}Note: It's not necessary but it will improve your SPAM score."
-echo -e "Linode users: https://www.linode.com/docs/networking/dns/configure-your-linode-for-reverse-dns/"
-read -p "Press ENTER to continue...${NC}"
+echo -e "Linode users: https://www.linode.com/docs/networking/dns/configure-your-linode-for-reverse-dns/${NC}"
+read -p "Press ENTER to continue..."
 
 # Install mailutils
 echo -e "Install mailutils:"
 echo -e "${GREEN}sudo apt-get install mailutils${NC}"
-read -p "${GREY}Press ENTER to reveal installation answers...${NC}"
+read -p "Press ENTER to reveal installation answers..."
 echo -e "Answer the questions:"
 echo -e "${BROWN}> Ok"
 echo -e "> Internet site"
 echo -e "> ${DOMAIN}${NC}"
-read -p "${GREY}Press ENTER to install DKIM...${NC}"
+read -p "Press ENTER to install DKIM..."
 
 # Install DKIM apps
 sudo apt-get install opendkim opendkim-tools
@@ -75,15 +75,15 @@ sudo apt-get install opendkim opendkim-tools
 # Configure postfix
 echo -e "Open Postfix configuration file:"
 echo -e "${GREEN}sudo nano /etc/postfix/main.cf${NC}"
-read -p "${GREY}Press ENTER to continue...${NC}"
+read -p "Press ENTER to continue..."
 echo -e "Add or edit the following lines in Postfix configuration file:"
 echo -e "${BROWN}mydestination = localhost, localhost.\$mydomain, \$mydomain"
 echo -e "myhostname = ${DOMAIN}"
 echo -e "inet_interfaces = loopback-only"
 echo -e "sender_canonical_maps = hash:/etc/postfix/canonical"
 echo -e "smtp_tls_security_level = may"
-echo -e "smtp_tls_loglevel = 1"
-read -p "${GREY}Press ENTER to continue...${NC}"
+echo -e "smtp_tls_loglevel = 1${NC}"
+read -p "Press ENTER to continue..."
 
 # Assign real email addresses to system users
 echo -e "Enter email alias for system accounts:"
@@ -131,11 +131,11 @@ echo -e "non_smtpd_milters=inet:localhost:12301" | sudo tee -a /etc/postfix/main
 
 echo -e "Open DKIM configuration:"
 echo -e "${GREEN}sudo nano /etc/default/opendkim${NC}"
-read -p "${GREY}Press ENTER to continue...${NC}"
+read -p "Press ENTER to continue..."
 
 echo -e "Update the following line to:"
 echo -e "${BROWN}SOCKET="inet:12301@localhost"${NC}"
-read -p "${GREY}Press ENTER to continue...${NC}"
+read -p "Press ENTER to continue..."
 
 sudo mkdir /etc/opendkim && sudo mkdir /etc/opendkim/keys
 
@@ -174,9 +174,8 @@ for DKIM_DNS_ROW in "${DKIM_DNS[@]}"
 do
 echo -e "mail._domainkey IN TXT ${DKIM_DNS_ROW}"
 done
-echo -e "${GREY}"
-echo -e "Notice: DNS change may take up to 24 hours."
-read -p "Press ENTER to continue...${NC}"
+echo -e "${GREY}Notice: DNS change may take up to 24 hours.${NC}"
+read -p "Press ENTER to continue..."
 
 # Restart sevices to apply new configuration
 sudo service postfix restart
@@ -193,7 +192,7 @@ while true; do
 					[Yy]* )
 						echo "This is the body of the email" | mail -s "This is the subject line" check-auth@verifier.port25.com
 						echo -e "Check ${SYTEM_EMAIL_ALIAS} inbox to see deliver-ability result."
-						read -p "${GREY}Press ENTER to continue...${NC}"
+						read -p "Press ENTER to continue..."
 						break;;
 					[Nn]* )
 						break;;
@@ -201,7 +200,7 @@ while true; do
 			done
 
 			echo -e "Go to www.mail-tester.com and proceed the test."
-			read -p "${GREY}Press ENTER to continue...${NC}"
+			read -p "Press ENTER to continue..."
 			break;;
 		[Nn]* )
 			break;;
@@ -216,8 +215,8 @@ while true; do
 			echo -e "Enter recipient email address:"
 			read TEST_EMAIL_ADDR
 			echo "This is the body of the email" | mail -s "This is the subject line" ${TEST_EMAIL_ADDR}
-			echo -e "${GREY}We have sent you test email to ${TEST_EMAIL_ADDR}."
-			read -p "Press ENTER to continue...${NC}"
+			echo -e "${GREY}We have sent you test email to ${TEST_EMAIL_ADDR}.${NC}"
+			read -p "Press ENTER to continue..."
 			break;;
 		[Nn]* )
 			break;;
@@ -231,4 +230,4 @@ echo -e "Tip: You can delete log file content with ${GREEN}sudo truncate -s 0 /v
 
 # Installation finished
 echo -e ""
-read -p "${GREY}Posfix installation finished, press ENTER...${NC}"
+read -p "Posfix installation finished, press ENTER..."

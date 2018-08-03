@@ -56,16 +56,16 @@ AVAILABLE_MEMORY=`free -m | awk '/Mem/{print $7}'`
 MAX_CHILDREN=$(( AVAILABLE_MEMORY/USER_MEMORY ))
 echo -e "Update PHP-FPM configuration:"
 echo -e "${GREEN}sudo nano /etc/php/7.2/fpm/pool.d/www.conf${NC}"
-read -p "${GREY}Press ENTER to continue...${NC}"
+read -p "Press ENTER to continue..."
 echo -e "Update the following lines:"
 echo -e "${BROWN}pm = ondemand"
-echo -e "pm.max_children = ${MAX_CHILDREN}"
-read -p "${GREY}Press ENTER to continue...${NC}"
+echo -e "pm.max_children = ${MAX_CHILDREN}${NC}"
+read -p "Press ENTER to continue..."
 
 # Configure PHP
 echo -e "Update PHP configuration:"
 echo -e "${GREEN}sudo nano /etc/php/7.2/fpm/php.ini${NC}"
-read -p "${GREY}Press ENTER to continue...${NC}"
+read -p "Press ENTER to continue..."
 echo -e "Update the following lines according to needs of your app:"
 echo -e "${BROWN}memory_limit = 64M"
 echo -e "post_max_size = 2K"
@@ -75,8 +75,8 @@ echo -e "allow_url_fopen = Off"
 echo -e "file_uploads = Off"
 echo -e "max_execution_time = 30"
 echo -e "expose_php = Off"
-echo -e "disable_functions ="
-read -p "${GREY}Press ENTER to continue...${NC}"
+echo -e "disable_functions =${NC}"
+read -p "Press ENTER to continue..."
 
 # Apply new settings
 sudo service php7.2-fpm restart

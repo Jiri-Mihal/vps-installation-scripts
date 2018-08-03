@@ -155,7 +155,7 @@ if [ ${INSTALL} = "first" ]; then
 	echo -e "${GREEN}sudo nano /etc/logrotate.d/nginx${NC}"
 	echo -e "Copy entire ${BROWN}/var/log/nginx/*.log {}${NC} block and paste it just under."
 	echo -e "Change ${RED}/var/log/nginx/*.log${NC} path in copied block to: ${BROWN}/srv/web/${DOMAIN}/${DOMAIN}/logs/*.log${NC}"
-	read -p "${GREY}Press ENTER to continue...${NC}"
+	read -p "Press ENTER to continue..."
 
 	# MySQL user, database, tables
 	if [ ${APP_TYPE} = "WebiikFW" ]; then
@@ -171,7 +171,7 @@ if [ ${INSTALL} = "first" ]; then
 	sudo nginx -t
 	echo -e "If Nginx test above wasn't successful troubleshoot the errors and then run test again:"
 	echo -e "${GREEN}sudo nginx -t${NC}"
-	read -p "Press ENTER if test results to successful...${NC}"
+	read -p "Press ENTER if test results to successful..."
 
 	# Enable app on Nginx
 	while true; do

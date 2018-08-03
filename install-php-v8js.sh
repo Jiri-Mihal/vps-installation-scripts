@@ -44,7 +44,7 @@ done
 # Install v8js
 echo -e "Follow the instruction at:"
 echo -e "https://github.com/phpv8/v8js/blob/php7/README.Linux.md"
-read -p "${GREY}Press ENTER to add v8js extension to php.ini...${NC}"
+read -p "Press ENTER to add v8js extension to php.ini..."
 echo -e "extension=\"v8js.so\"" | sudo tee -a /etc/php/7.2/fpm/php.in
 echo -e "extension=\"v8js.so\"" | sudo tee -a /etc/php/7.2/cli/php.in
 
