@@ -18,7 +18,7 @@ fi
 
 # Ask user to install PHP extension
 while true; do
-	read -p "Do you want to install and setup PHP GD extension? (y/n): " yn
+	read -p "Do you want to install and setup PHP Mbstring extension? (y/n): " yn
 	case ${yn} in
 		[Yy]* )
 			sudo apt-get install php-mbstring
