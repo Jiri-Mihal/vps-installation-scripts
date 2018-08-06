@@ -149,6 +149,7 @@ if [ ${INSTALL} = "first" ]; then
 	read -p "Press ENTER to continue..."
 
 	# Create Diffie Hellman key
+	sudo rm ~/.rnd
 	openssl dhparam -out /srv/web/${DOMAIN}/${SUBDOMAIN}/ssl/hellman.pem 2048
 	read -p "Press ENTER to continue..."
 
