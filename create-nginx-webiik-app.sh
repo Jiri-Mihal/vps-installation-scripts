@@ -114,12 +114,10 @@ fi
 # Install required apps for every Webiik FW app
 if ! hash php 2>/dev/null; then
 	bash ~/install-php.sh
-	if [ ${APP_TYPE} = "WebiikFW" ]; then
-		bash ~/install-php-mysql.sh
-	fi
 fi
 if [ ${APP_TYPE} = "WebiikFW" ]; then
 	if ! hash mysql 2>/dev/null; then
+		bash ~/install-php-mysql.sh
 		bash ~/install-mysql.sh
 	fi
 fi
@@ -142,6 +140,7 @@ if [ ${INSTALL} = "first" ]; then
 	fi
 
 	# Install Let's Encrypt free SSL certificate
+	sudo certbot --nginx certonly -d ${DOMAIN}
 	sudo certbot --nginx certonly -d ${SUBDOMAIN}.${DOMAIN}
 	read -p "Press ENTER to continue..."
 
@@ -156,8 +155,7 @@ if [ ${INSTALL} = "first" ]; then
 	# Logrotate
 	echo -e "Open logrotate configuration file:"
 	echo -e "${GREEN}sudo nano /etc/logrotate.d/nginx${NC}"
-	echo -e "Copy entire ${BROWN}/var/log/nginx/*.log {}${NC} block and paste it just under."
-	echo -e "Change ${RED}/var/log/nginx/*.log${NC} path in copied block to: ${BROWN}/srv/web/${DOMAIN}/${DOMAIN}/logs/*.log${NC}"
+	echo -e "Add path ${BROWN}/srv/web/${DOMAIN}/${SUBDOMAIN}/logs/*.log${NC} above path ${BROWN}/var/log/nginx/*.log {}${NC}."
 	read -p "Press ENTER to continue..."
 
 	# MySQL user, database, tables
@@ -167,7 +165,7 @@ if [ ${INSTALL} = "first" ]; then
 	fi
 
 	# Update Nginx configuration
-	sudo cp /srv/web/${DOMAIN}/${SUBDOMAIN}/htdocs/private/server/*.nginx /etc/nginx/sites-available
+	sudo cp /srv/web/${DOMAIN}/${SUBDOMAIN}/htdocs/private/server/${SUBDOMAIN}.*.nginx /etc/nginx/sites-available
 	ls /etc/nginx/sites-available
 
 	if [ -f "/srv/web/${DOMAIN}/${SUBDOMAIN}/htdocs/private/server/nginx-custom-locoloader.conf" ]; then

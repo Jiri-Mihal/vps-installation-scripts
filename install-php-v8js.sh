@@ -31,10 +31,10 @@ echo -e "----------------------------------------------------------------------$
 
 # Ask user to start the installation
 while true; do
-	read -p "Do you want to start the installation? (y/n): " yn
+	read -p "Do you want to start the v8js installation? (y/n): " yn
 	case ${yn} in
 		[Yy]* )
-			sudo apt-get install php7.2-fpm
+			sudo apt-get install php7.2-dev
 			break;;
 		[Nn]* )
 			exit;;
@@ -42,11 +42,12 @@ while true; do
 done
 
 # Install v8js
-echo -e "Follow the instruction at:"
+echo -e "Follow the instruction at link below, BUT..."
+echo -e "!!! Don't use /tmp dir, use ~/tmp instead of it !!!"
 echo -e "https://github.com/phpv8/v8js/blob/php7/README.Linux.md"
-read -p "Press ENTER to add v8js extension to php.ini..."
-echo -e "extension=\"v8js.so\"" | sudo tee -a /etc/php/7.2/fpm/php.in
-echo -e "extension=\"v8js.so\"" | sudo tee -a /etc/php/7.2/cli/php.in
+read -p "Once you've finished compiling of v8js, press ENTER to add v8js.so to php.ini..."
+echo -e "extension=\"v8js.so\"" | sudo tee -a /etc/php/7.2/fpm/php.ini
+echo -e "extension=\"v8js.so\"" | sudo tee -a /etc/php/7.2/cli/php.ini
 
 # Apply new extension
 sudo service php7.2-fpm restart
@@ -59,7 +60,7 @@ if ! [[ ${PHP_MODULES} = *"v8js"* ]]; then
 	sudo cp -R include/* /usr/include
 	sudo cp out.gn/x64.release/natives_blob.bin /usr/lib
 	sudo cp out.gn/x64.release/snapshot_blob.bin /usr/lib
-	sudo cd out.gn/x64.release/obj
+	cd out.gn/x64.release/obj
 	sudo ar rcsDT libv8_libplatform.a v8_libplatform/*.o
 fi
 

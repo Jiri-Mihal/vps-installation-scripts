@@ -23,6 +23,8 @@ while true; do
 		[Yy]* )
 			sudo apt-get install php-pear php-dev
 			sudo pecl install apcu
+			echo -e "extension=apcu.so" | sudo tee -a /etc/php/7.2/fpm/php.ini
+			echo -e "extension=apcu.so" | sudo tee -a /etc/php/7.2/cli/php.ini
 			sudo service php7.2-fpm restart
 			break;;
 		[Nn]* )

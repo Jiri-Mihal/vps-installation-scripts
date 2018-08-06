@@ -36,7 +36,7 @@ done
 
 # Ask user to install Node process manager
 while true; do
-	read -p "Do you want to PM2 process manager? (y/n): " yn
+	read -p "Do you want to install PM2 process manager? (y/n): " yn
 	case ${yn} in
 		[Yy]* )
 			sudo npm install -g pm2
