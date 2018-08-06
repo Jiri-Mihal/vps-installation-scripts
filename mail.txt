@@ -1,2 +1,0 @@
-mail._domainkey	IN	TXT	( "v=DKIM1; h=sha256; k=rsa; "
-	  "p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDArHwbA9lGmZ+d9Ls5y47g4Yp2ofn44UmKbgSeXzTaDGQ+U/3cGdzQP7j+ScosRw5kcuKA1AZGDtfDz08HbwfO+RgRlZRMiqz6i1zpiKathj6y/FV6McDy7V/pWiVTIa1o0LIXMZF3F9MsToPK9IwNm4J+p8QqtXvaIpohZkJm/QIDAQAB" )  ; ----- DKIM key mail for locoloader.com
