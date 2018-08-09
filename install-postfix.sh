@@ -95,6 +95,8 @@ echo -e "root@${HOSTNAME}	${SYTEM_EMAIL_ALIAS}" | sudo tee -a /etc/postfix/canon
 echo -e "${USER}	${SYTEM_EMAIL_ALIAS}" | sudo tee -a /etc/postfix/canonical
 echo -e "${USER}@${HOSTNAME}	${SYTEM_EMAIL_ALIAS}" | sudo tee -a /etc/postfix/canonical
 sudo postmap /etc/postfix/canonical
+echo -e "root: ${SYTEM_EMAIL_ALIAS}" | sudo tee -a /etc/aliases
+sudo newaliases
 
 # Install DKIM
 # more about it at https://blog.whabash.com/posts/send-outbound-email-postfix-dkim-spf-ubuntu-16-04
