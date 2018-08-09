@@ -8,7 +8,6 @@ RED="\033[1;31m"
 NC="\033[0m"
 
 # Gather required parameters from user
-echo -e "Enter the domain eq ${RED}yourdomain.tld${NC} associated with this app:"
 read DOMAIN
 if [[ -z "$1" || -z "$2" || -z "$3" || -z "$4" ]]; then
 	echo -e "Aborted. Missing required parameters. Call should be: bash backup-to-ftp.sh ${RED}yourftp.tld user pswd 'sources' destination${NC}"
