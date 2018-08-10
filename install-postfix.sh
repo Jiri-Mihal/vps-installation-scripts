@@ -95,8 +95,6 @@ echo -e "root@${HOSTNAME}	${SYTEM_EMAIL_ALIAS}" | sudo tee -a /etc/postfix/canon
 echo -e "${USER}	${SYTEM_EMAIL_ALIAS}" | sudo tee -a /etc/postfix/canonical
 echo -e "${USER}@${HOSTNAME}	${SYTEM_EMAIL_ALIAS}" | sudo tee -a /etc/postfix/canonical
 sudo postmap /etc/postfix/canonical
-echo -e "root: ${SYTEM_EMAIL_ALIAS}" | sudo tee -a /etc/aliases
-sudo newaliases
 
 # Install DKIM
 # more about it at https://blog.whabash.com/posts/send-outbound-email-postfix-dkim-spf-ubuntu-16-04
@@ -184,6 +182,19 @@ read -p "Press ENTER to continue..."
 sudo service postfix restart
 sudo service opendkim restart
 
+# Update crontab to send emails to different email than root or 'custom-user'
+while true; do
+	read -p "Do you want set crontab to send results to ${SYTEM_EMAIL_ALIAS} instead of to root/user? (y/n): " yn
+	case ${yn} in
+		[Yy]* )
+			(sudo crontab -l ; echo "MAILTO=${SYTEM_EMAIL_ALIAS}") | sudo crontab
+			(crontab -l ; echo "MAILTO=${SYTEM_EMAIL_ALIAS}") | crontab
+			break;;
+		[Nn]* )
+			break;;
+	esac
+done
+
 # SPAM test
 while true; do
 	read -p "Do you want proceed SPAM test? (y/n): " yn
@@ -203,22 +214,6 @@ while true; do
 			done
 
 			echo -e "Go to www.mail-tester.com and proceed the test."
-			read -p "Press ENTER to continue..."
-			break;;
-		[Nn]* )
-			break;;
-	esac
-done
-
-# Send test message
-while true; do
-	read -p "Do you want to send test email message? (y/n): " yn
-	case ${yn} in
-		[Yy]* )
-			echo -e "Enter recipient email address:"
-			read TEST_EMAIL_ADDR
-			echo "This is the body of the email" | mail -s "This is the subject line" ${TEST_EMAIL_ADDR}
-			echo -e "${GREY}We have sent you test email to ${TEST_EMAIL_ADDR}.${NC}"
 			read -p "Press ENTER to continue..."
 			break;;
 		[Nn]* )
