@@ -35,7 +35,7 @@ DATE=`date +%Y_%m_%d`
 BACKUP_FILE="/tmp/backup_$DATE.tar.gz"
 
 # Compress dirs before upload
-tar czf $BACKUP_FILE $DIRS_TO_BACKUP
+tar czf $BACKUP_FILE -P $DIRS_TO_BACKUP
 
 # Upload compressed dirs to FTP
 # 1. It connects to FTP with specified user credentials
