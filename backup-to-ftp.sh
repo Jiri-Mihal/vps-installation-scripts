@@ -56,3 +56,4 @@ EOF
 
 # Remove helper file
 rm /tmp/ftp_backups_to_delete.txt
+rm $BACKUP_FILE
