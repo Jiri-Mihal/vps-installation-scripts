@@ -52,6 +52,3 @@ recls -1 --sort=date $FTP_BACKUP_DIR | sed -e 's/^/rm\ \/' | sed -e '1,10d' > /t
 source /tmp/ftp_backups_to_delete.txt
 quit
 EOF
-
-# Remove helper file
-rm /tmp/ftp_backups_to_delete.txt
