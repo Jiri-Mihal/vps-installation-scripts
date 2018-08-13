@@ -5,7 +5,7 @@ while true; do
 	read -p "Do you want to update system? (y/n): " yn
 	case ${yn} in
 		[Yy]* )
-			apt-get update && apt-get upgrade
+			sudo apt-get update && sudo apt-get upgrade
 			break;;
 		[Nn]* )
 			break;;
