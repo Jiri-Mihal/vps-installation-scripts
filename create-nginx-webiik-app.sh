@@ -102,8 +102,8 @@ if [[ ${INSTALL} = "first" ]]; then
 		read -p "Do you want to add and edit config.local.php file? (y/n): " yn
 		case ${yn} in
 			[Yy]* )
-				cp /srv/web/${DOMAIN}/${SUBDOMAIN}/htdocs/private/config/config.php /srv/web/${DOMAIN}/${SUBDOMAIN}/htdocs/private/config/config.local.php
-				nano /srv/web/${DOMAIN}/${SUBDOMAIN}/htdocs/private/config/config.local.php
+				cp /srv/web/${DOMAIN}/${SUBDOMAIN}/htdocs/private/app/config/config.php /srv/web/${DOMAIN}/${SUBDOMAIN}/htdocs/private/app/config/config.local.php
+				nano /srv/web/${DOMAIN}/${SUBDOMAIN}/htdocs/private/app/config/config.local.php
 				break;;
 			[Nn]* )
 				break;;
