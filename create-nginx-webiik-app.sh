@@ -169,8 +169,8 @@ if [ ${INSTALL} = "first" ]; then
 	sudo cp /srv/web/${DOMAIN}/${SUBDOMAIN}/htdocs/private/server/${SUBDOMAIN}.*.nginx /etc/nginx/sites-available
 	ls /etc/nginx/sites-available
 
-	if [ -f "/srv/web/${DOMAIN}/${SUBDOMAIN}/htdocs/private/server/nginx-custom-locoloader.conf" ]; then
-		sudo cp /srv/web/${DOMAIN}/${SUBDOMAIN}/htdocs/private/server/nginx-custom-locoloader.conf /etc/nginx/custom.conf
+	if [ -f "/srv/web/${DOMAIN}/${SUBDOMAIN}/htdocs/private/server/nginx-custom-${DOMAIN}.conf" ]; then
+		sudo cp /srv/web/${DOMAIN}/${SUBDOMAIN}/htdocs/private/server/nginx-custom-${DOMAIN}.conf /etc/nginx/custom.conf/
 	fi
 
 	# Check Nginx configuration
