@@ -21,9 +21,9 @@ FTP_PASSWORD=${3}
 # Backup file path
 DATE=`date +%Y_%m_%d`
 if [[ -z "$5" ]]; then
-	BACKUP_FILE="/tmp/backup_${5}_${DATE}.tar.gz"
-else
 	BACKUP_FILE="/tmp/backup_${DATE}.tar.gz"
+else
+	BACKUP_FILE="/tmp/backup_${5}_${DATE}.tar.gz"
 fi
 if [[ -z "$6" ]]; then
 	FTP_BACKUP_DIR="/backup/"
