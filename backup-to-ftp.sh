@@ -17,10 +17,13 @@ fi
 FTP_ADDRESS=${1}
 FTP_USER=${2}
 FTP_PASSWORD=${3}
+
+# Backup file path
+DATE=`date +%Y_%m_%d`
 if [[ -z "$5" ]]; then
-	BACKUP_FILE="/tmp/backup_${5}_$DATE.tar.gz"
+	BACKUP_FILE="/tmp/backup_${5}_${DATE}.tar.gz"
 else
-	BACKUP_FILE="/tmp/backup_$DATE.tar.gz"
+	BACKUP_FILE="/tmp/backup_${DATE}.tar.gz"
 fi
 if [[ -z "$6" ]]; then
 	FTP_BACKUP_DIR="/backup/"
@@ -33,9 +36,6 @@ fi
 # backups website files, NGiNX settings and MySQL databases
 # eq '/var/lib/mysql/ /srv/web/'
 DIRS_TO_BACKUP=${4}
-
-# Backup file path
-DATE=`date +%Y_%m_%d`
 
 # Compress dirs before upload
 tar czf $BACKUP_FILE -P $DIRS_TO_BACKUP
